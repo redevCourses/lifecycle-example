@@ -1,25 +1,74 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import DidMountExample from './components/class/DidMountExample'
+import DidUpdateExample from './components/class/DidUpdateExample'
+import WillUnmountExample from './components/class/WillUnmountExample'
+
+import DidMountExampleFn from './components/function/DidMountExample'
+import DidUpdateExampleFn from './components/function/DidUpdateExample'
+import WillUnmountExampleFn from './components/function/WillUnmountExample'
+
+import './App.css'
+
+class App extends React.Component {
+  constructor (props) {
+    super(props)
+    this.state = {
+      showTimer: false,
+      showTimerFn: false
+    }
+    this.toggleTimer = this.toggleTimer.bind(this)
+    this.toggleTimerFn = this.toggleTimerFn.bind(this)
+  }
+
+  toggleTimer () {
+    // переключатель для классовой компоненты
+    this.setState(prevState => ({
+      showTimer: !prevState.showTimer
+    }))
+  }
+
+  toggleTimerFn () {
+    // переключатель для функциональной компоненты
+    this.setState(prevState => ({
+      showTimerFn: !prevState.showTimerFn
+    }))
+  }
+
+  render () {
+    return (
+      <div className='container'>
+        <div className='centeredDiv'>
+          <div className='content'>
+            {/* тут будут классовые компоненты */}
+
+            <h1> DidMountExample (class)</h1>
+            <DidMountExample />
+            <h1> DidUpdateExample (class)</h1>
+            <DidUpdateExample />
+            <h1> WillUnmountExample (class)</h1>
+            <button onClick={this.toggleTimer}>Перелючатель таймера</button>
+            {this.state.showTimer && <WillUnmountExample />}
+          </div>
+        </div>
+
+        <div className='centeredDiv'>
+          <div className='content'>
+            {/* тут будут функциональные компоненты */}
+
+            <h1> DidMountExample (function)</h1>
+            <DidMountExampleFn />
+            <h1> DidUpdateExample (function)</h1>
+            <DidUpdateExampleFn />
+
+            <h1> WillUnmountExample (function)</h1>
+            <button onClick={this.toggleTimerFn}>Перелючатель таймера</button>
+            {this.state.showTimerFn && <WillUnmountExampleFn />}
+          </div>
+        </div>
+      </div>
+    )
+  }
 }
 
-export default App;
+export default App
